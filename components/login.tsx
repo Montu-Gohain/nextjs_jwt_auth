@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { Credentials } from "@/interfaces/login";
 import { initialState } from "@/helpers";
 import { loginUser, registerUser } from "@/services/userServices";
+import toast, { Toaster } from "react-hot-toast";
+import { error } from "console";
 
 const Login: React.FC = () => {
   const [credentials, setCredentials] = useState<Credentials>(initialState);
@@ -20,24 +22,53 @@ const Login: React.FC = () => {
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      if (formState === "login" && credentials !== initialState) {
-        const response = await loginUser(credentials);
-        console.log(response);
-      } else if (formState === "register" && credentials !== initialState) {
-        const response = await registerUser(credentials);
-        console.log(response);
-      }
+  const notify = (msg: string, success: boolean) =>
+    success ? toast.success(msg) : toast.error(msg);
 
-      setCredentials(initialState);
-    } catch (error) {
-      console.log(error);
+  const handleSubmit = async () => {
+    if (formState === "login") {
+      try {
+        const response = await loginUser({
+          username: `${credentials.username}`,
+          password: `${credentials.password}`,
+        });
+        console.log("Here I am ", response);
+
+        if (response.success) {
+          notify(response.msg, true);
+        } else {
+          notify("Wrong Credentials", false);
+        }
+      } catch (error) {
+        console.log(error);
+        notify("Login failed. Please try again.", false);
+      }
+    } else if (formState === "register") {
+      try {
+        const response = await registerUser({
+          username: `${credentials.username}`,
+          password: `${credentials.password}`,
+        });
+
+        console.log("Here I am ", response);
+
+        if (response.success) {
+          notify(response.msg, true);
+        } else {
+          notify("Wrong Credentials", false);
+        }
+      } catch (error) {
+        console.log(error);
+        notify("Registration failed, please try again later.", false);
+      }
     }
+
+    setCredentials(initialState);
   };
 
   return (
     <div className="grid place-items-center p-7 ">
+      <Toaster />
       <h1 className="text-red-500 text-3xl text-center mt-4">
         {formState === "login" ? "Login" : "Register"}
       </h1>
