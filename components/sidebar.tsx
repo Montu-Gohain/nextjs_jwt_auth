@@ -34,7 +34,7 @@ const Sidebar: React.FC<propTypes> = ({ username }) => {
           className="my-4 cursor-pointer  italic hover:bg-slate-500 py-2 px-2 rounded-md"
           title="Username"
         >
-          {username}
+          👑{username}👑
         </p>
         <p
           className="my-4 cursor-pointer  hover:bg-slate-500  py-2 px-2 rounded-md"
