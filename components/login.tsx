@@ -5,11 +5,14 @@ import { Credentials } from "@/interfaces/login";
 import { initialState } from "@/helpers";
 import { loginUser, registerUser } from "@/services/userServices";
 import toast, { Toaster } from "react-hot-toast";
-import { error } from "console";
+import { useRouter } from "next/navigation";
+import { set_data_in_cookies, set_data_in_localstorage } from "../helpers";
 
 const Login: React.FC = () => {
   const [credentials, setCredentials] = useState<Credentials>(initialState);
   const [formState, setFormState] = useState<"login" | "register">("login");
+
+  const router = useRouter();
 
   const toggleFormState = () => {
     setFormState(formState === "login" ? "register" : "login");
@@ -32,16 +35,21 @@ const Login: React.FC = () => {
           username: `${credentials.username}`,
           password: `${credentials.password}`,
         });
-        console.log("Here I am ", response);
+        const { success, msg, tokens } = response;
 
-        if (response.success) {
-          notify(response.msg, true);
-        } else {
-          notify("Wrong Credentials", false);
+        if (success) {
+          const { accessToken, refreshToken } = tokens;
+          notify(msg, true);
+          set_data_in_cookies("accessToken", accessToken);
+          set_data_in_cookies("refreshToken", refreshToken);
+          set_data_in_localstorage("accessToken", accessToken);
+          set_data_in_localstorage("refreshToken", refreshToken);
+
+          router.push("/todos");
         }
       } catch (error) {
         console.log(error);
-        notify("Login failed. Please try again.", false);
+        notify("Wrong Credentials", false);
       }
     } else if (formState === "register") {
       try {
@@ -50,16 +58,14 @@ const Login: React.FC = () => {
           password: `${credentials.password}`,
         });
 
-        console.log("Here I am ", response);
+        const { success, msg } = response;
 
-        if (response.success) {
-          notify(response.msg, true);
-        } else {
-          notify("Wrong Credentials", false);
+        if (success) {
+          notify(msg, true);
         }
       } catch (error) {
         console.log(error);
-        notify("Registration failed, please try again later.", false);
+        notify("Wrong Credentials", false);
       }
     }
 

@@ -6,16 +6,12 @@ import { base_url } from "@/services/userServices";
 
 export default function Home() {
   const router = useRouter();
-
   const [userdata, setUserdata] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await base_url.get("/users");
-
         const result = response.data;
-
         setUserdata(result.data);
       } catch (error) {
         console.log(error);
