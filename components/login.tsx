@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Credentials } from "@/interfaces/login";
+import { Credentials } from "@/interfaces";
 import { initialState } from "@/helpers";
 import { loginUser, registerUser } from "@/services/userServices";
 import toast, { Toaster } from "react-hot-toast";
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
           username: `${credentials.username}`,
           password: `${credentials.password}`,
         });
-        const { success, msg, tokens } = response;
+        const { success, msg, tokens, userId } = response;
 
         if (success) {
           const { accessToken, refreshToken } = tokens;
@@ -44,8 +44,11 @@ const Login: React.FC = () => {
           set_data_in_cookies("refreshToken", refreshToken);
           set_data_in_localstorage("accessToken", accessToken);
           set_data_in_localstorage("refreshToken", refreshToken);
+          set_data_in_localstorage("userId", userId);
 
-          router.push("/todos");
+          setTimeout(() => {
+            router.push("/todos");
+          }, 600);
         }
       } catch (error) {
         console.log(error);
@@ -73,9 +76,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="grid place-items-center p-7 ">
+    <div className="grid place-items-center p-7 bg-neutral-800 shadow-xl">
       <Toaster />
-      <h1 className="text-red-500 text-3xl text-center mt-4">
+      <h1 className="text-slate-200 text-3xl text-center mb-7">
         {formState === "login" ? "Login" : "Register"}
       </h1>
       <div className="flex-col flex p-7 mt-7 bg-green-400 w-96 rounded-sm shadow-lg">
@@ -88,7 +91,7 @@ const Login: React.FC = () => {
           onChange={handleInputChange}
         />
         <input
-          type="text"
+          type="password"
           name="password"
           className="p-2 my-3 rounded-md text-sm"
           placeholder="Enter your Password"
