@@ -36,12 +36,12 @@ const Sidebar: React.FC<propTypes> = ({ username }) => {
         >
           👑{username}👑
         </p>
-        <p
+        {/* <p
           className="my-4 cursor-pointer  hover:bg-slate-500  py-2 px-2 rounded-md"
           title={"Coming soon 🚧🛠️⌛"}
         >
           Leaderboard
-        </p>
+        </p> */}
         <p
           className="my-4 cursor-pointer  hover:bg-slate-500  py-2 px-2 rounded-md"
           onClick={() => {
