@@ -2,17 +2,17 @@
 import Sidebar from "@/components/sidebar";
 import {
   GetUserDataById_,
-  base_url,
   deleteTask,
   updateTask,
 } from "@/services/userServices";
 import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import TodoInput from "@/components/inputField";
 import { Todo } from "@/interfaces";
 import toast, { Toaster } from "react-hot-toast";
+import HomeIcon from "../../public/house_.png";
 
 const Todos: React.FC = () => {
   const [username, setUsername] = useState<string | "user_name">("user_name");
@@ -87,13 +87,13 @@ const Todos: React.FC = () => {
     <div className="flex flex-row ">
       <Toaster />
       <Sidebar username={username} />
-      <div className="p-6 bg-slate-400 w-full">
+      <div className="p-6 bg-slate-100 w-full">
         {loading ? (
           <h1 className="text-black">Your Todos are loading...</h1>
         ) : (
           <div>
-            <h1 className="text-center text-2xl text-white py-4 mb-5 bg-slate-900">
-              Today&apos;s Tasks{" "}
+            <h1 className="text-center text-2xl text-white py-4 mb-5 bg-gray-800 rounded-md">
+              Tasks 🚀🚀🚀
             </h1>
             <div className="flex flex-row items-center justify-between">
               <span className="bg-indigo-500 p-2  text-white rounded-sm">
@@ -110,25 +110,27 @@ const Todos: React.FC = () => {
               {todos.map((todo: Todo) => (
                 <li
                   key={todo.id}
-                  className="border p-2 my-2 rounded-md bg-gray-100 flex flex-row items-center justify-between "
+                  className={`border p-2 my-3 rounded-3xl bg-gray-100 flex flex-row items-center justify-between hover:shadow-md hover:transition-transform hover:transform hover:ease-in-out cursor-pointer ${
+                    todo.is_complete ? "line-through" : ""
+                  }`}
                 >
                   <span>{todo.task}</span>
                   <div>
                     <Button
                       variant="outline"
                       className={
-                        todo.is_complete ? "bg-green-500 text-white" : ""
+                        todo.is_complete ? " text-green-500 text-xl" : ""
                       }
                       onClick={() => updateTodo(todo.is_complete, todo.id)}
                     >
-                      {todo.is_complete ? "Done" : "Mark as done ☑️"}
+                      {todo.is_complete ? "✓" : "✘"}
                     </Button>
                     <Button
-                      variant="destructive"
-                      className="ml-2"
+                      variant="outline"
+                      className="ml-2 mr-3 text-red-500"
                       onClick={() => destroy_task(todo.id)}
                     >
-                      Delete
+                      ❌
                     </Button>
                   </div>
                 </li>

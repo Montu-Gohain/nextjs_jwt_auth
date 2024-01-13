@@ -38,7 +38,7 @@ const TodoInput: React.FC<propTypes> = ({ setter }) => {
       <Toaster />
       <input
         type="text"
-        className="w-full px-3"
+        className="w-full px-3 focus:outline-none rounded-md focus:ring focus:ring-blue-600"
         value={inputValue}
         onChange={handleInputChange}
       />
