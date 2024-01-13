@@ -1,6 +1,6 @@
 export interface Credentials {
-  username: string;
-  password: string;
+  username: string | null;
+  password: string | null;
 }
 
 export interface Todo {

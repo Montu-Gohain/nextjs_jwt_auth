@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { GetUserDataById_, addNewTask } from "../services/userServices";
+import { addNewTask } from "../services/userServices";
 import toast, { Toaster } from "react-hot-toast";
-import { Todo } from "@/interfaces";
 
 interface propTypes {
   setter: React.Dispatch<React.SetStateAction<number>>;
