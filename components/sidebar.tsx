@@ -16,7 +16,7 @@ const Sidebar: React.FC<propTypes> = ({ username }) => {
 
   return (
     <div
-      className={`bg-gray-800 h-screen text-white w-64 transform transition-transform ease-in-out ${
+      className={`   bg-gray-800 h-screen text-white w-64 transform transition-transform ease-in-out  ${
         isOpen ? "translate-x-0" : "-translate-x-64"
       }`}
     >

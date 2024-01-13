@@ -130,7 +130,7 @@ const Todos: React.FC = () => {
                       className="ml-2 mr-3 text-red-500"
                       onClick={() => destroy_task(todo.id)}
                     >
-                      ❌
+                      ⛔
                     </Button>
                   </div>
                 </li>
